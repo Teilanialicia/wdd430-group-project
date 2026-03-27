@@ -1,65 +1,101 @@
-import Image from "next/image";
+import Button from "./ui/layout/button";
+import Navbar from "./ui/layout/navbar";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <>
+      <main className="min-h-screen bg-(--color-secondary) text-(--color-contrast)">
+
+        {/* Hero */}
+        <section className="bg-(--color-primary) text-white py-20 px-6 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            Handcrafted Haven
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-lg md:text-xl max-w-2xl mx-auto mb-8">
+            Discover unique, handmade creations while supporting artisans and sustainable living.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+          <div className="flex justify-center gap-4">
+            {/* <button onClick={navigate} className="bg-(--color-accent) text-white px-6 py-3 rounded-lg hover:opacity-90">
+              Browse Products
+            </button> */}
+            <Button action="navigate" navigateUrl="login" className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-(--color-primary) cursor-pointer">
+              Become a Seller
+            </Button>
+          </div>
+        </section>
+
+        {/* Categories */}
+        <section className="py-16 px-6">
+          <h2 className="text-3xl font-semibold text-center mb-10">
+            Explore Categories
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {["Jewelry", "Home Decor", "Art", "Clothing"].map((category) => (
+              <Button action="navigate" navigateUrl={`/category/${category.replace(" ", "-").toLowerCase()}`} key={category} 
+              className="p-6 bg-white border border-(--color-secondary) rounded-xl text-center hover:shadow-lg transition cursor-pointer">
+                <p className="text-lg font-medium">{category}</p>
+              </Button>
+            ))}
+          </div>
+        </section>
+
+        {/* Support banner */}
+        <section className="bg-white py-16 px-6">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <h3 className="font-semibold text-xl mb-2 text-(--color-primary)">
+                Support Artisans
+              </h3>
+              <p>Empowering creators to share their craft with the world.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-xl mb-2 text-(--color-primary)">
+                Sustainable Shopping
+              </h3>
+              <p>Encouraging eco-friendly and ethical consumption.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-xl mb-2 text-(--color-primary)">
+                One-of-a-Kind Finds
+              </h3>
+              <p>Every product is unique and handcrafted with care.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* How it works section - this describes the process of ordering an item from the shop works */}
+        <section className="py-16 px-6">
+          <h2 className="text-3xl font-semibold text-center mb-10">
+            How It Works
+          </h2>
+
+          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-center">
+            {["Browse", "Connect", "Purchase"].map((step, i) => (
+              <div key={step}>
+                <p className="text-2xl font-bold mb-2 text-(--color-accent)">
+                  {i + 1}
+                </p>
+                <p>{step}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Join section */}
+        <section className="bg-(--color-accent) text-white py-16 text-center px-6">
+          <h2 className="text-3xl font-bold mb-4">
+            Join the Handmade Movement
+          </h2>
+          <p className="mb-6">
+            Be part of a community that values creativity and sustainability.
+          </p>
+          <Button action="navigate" navigateUrl="join" className="bg-white text-(--color-accent) px-6 py-3 rounded-lg font-semibold hover:opacity-90">
+            Get Started
+          </Button>
+        </section>
+
       </main>
-    </div>
+    </>
   );
 }
