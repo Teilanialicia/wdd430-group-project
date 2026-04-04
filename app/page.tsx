@@ -1,5 +1,4 @@
 import Button from "./ui/layout/button";
-import Navbar from "./ui/layout/navbar";
 
 export default function Home() {
   return (
@@ -18,7 +17,7 @@ export default function Home() {
             {/* <button onClick={navigate} className="bg-(--color-accent) text-white px-6 py-3 rounded-lg hover:opacity-90">
               Browse Products
             </button> */}
-            <Button action="navigate" navigateUrl="login" className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-(--color-primary) cursor-pointer">
+            <Button action="navigate" navigateUrl="/login" className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-(--color-primary) cursor-pointer">
               Become a Seller
             </Button>
           </div>
@@ -90,7 +89,7 @@ export default function Home() {
           <p className="mb-6">
             Be part of a community that values creativity and sustainability.
           </p>
-          <Button action="navigate" navigateUrl="join" className="bg-white text-(--color-accent) px-6 py-3 rounded-lg font-semibold hover:opacity-90">
+          <Button action="navigate" navigateUrl="join" className="bg-white text-(--color-accent) px-6 py-3 rounded-lg font-semibold hover:opacity-90 cursor-pointer">
             Get Started
           </Button>
         </section>

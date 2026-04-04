@@ -7,15 +7,12 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      // Only let the user see the home page and login screen before logging in
-      const isOnHomePage = nextUrl.pathname === "/";
-      const isOnLoginPage = nextUrl.pathname === "/login";
-
-      if (isOnHomePage || isOnLoginPage) {
-        return true;
+      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      if (isOnDashboard) {
+        if (isLoggedIn) return true;
+        return false;
       }
-
-      return Response.redirect(new URL('/login', nextUrl));
+      return false;
     },
   },
   providers: [],
