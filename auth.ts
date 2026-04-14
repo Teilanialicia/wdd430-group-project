@@ -3,9 +3,9 @@ import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from "zod"
 import bcrypt from 'bcrypt';
-import prisma from './prisma';
+import prisma from './prisma/prisma';
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({

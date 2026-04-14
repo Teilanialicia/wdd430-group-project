@@ -1,30 +1,28 @@
 'use client'
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Button from "../ui/layout/button";
-import { authenticate, createUser } from "../actions/auth/auth";
+import { authenticate } from "../actions/auth/auth";
+import { useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Login() {
-  const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, formAction, isPending] = useActionState(
+    authenticate,
+    undefined
+  )
+  const router = useRouter();
+  const { update } = useSession();
 
-  async function handleSubmit(e: React.SubmitEvent) {
-    e.preventDefault();
-
-    setError("");
-
-    // const error = await authenticate({email, password});
-    // const newUser = await createUser({
-    //   email,
-    //   password,
-    //   phone: "",
-    //   username: "name"
-    // })
-  }
+  useEffect(() => {
+    if (error === "success") {
+      update();
+      router.push('/');
+    }
+  }, [error, router]);
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-(--color-secondary) px-6">
@@ -34,7 +32,7 @@ export default function Login() {
           Login
         </h1>
 
-        <form action={authenticate} className="flex flex-col gap-4">
+        <form action={formAction} className="flex flex-col gap-4">
 
           {/* Email */}
           <input
@@ -67,6 +65,7 @@ export default function Login() {
           <button
             type="submit"
             className="bg-(--color-primary) text-white py-3 rounded-lg hover:opacity-90"
+            aria-disabled={isPending}
           >
             Login
           </button>

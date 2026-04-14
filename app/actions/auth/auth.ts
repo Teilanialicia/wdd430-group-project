@@ -1,26 +1,28 @@
 'use server';
 
 import { signIn } from '@/auth';
-import prisma from '@/prisma';
 import { AuthError } from 'next-auth';
 import bcrypt from "bcrypt"
+import prisma from '@/prisma/prisma';
 
-export async function authenticate(formData: FormData) {
+export async function authenticate(prevState: string | undefined, formData: FormData) {
   try {
+    const data = Object.fromEntries(formData.entries());
     await signIn('credentials', {
-      ...formData,
-      redirectTo: "/",
+      ...data,
+      redirect: false,
     });
-  } 
+    return "success";
+  }
   catch (error) {
-    // if (error instanceof AuthError) {
-    //   switch (error.type) {
-    //     case 'CredentialsSignin':
-    //       return 'Invalid credentials.';
-    //     default:
-    //       return 'Something went wrong.';
-    //   }
-    // }
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
     throw error;
   }
 }
