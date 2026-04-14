@@ -1,8 +1,9 @@
-import prisma from "@/prisma";
+import { Category } from "@/app/prisma/generated/prisma/client";
+import prisma from "@/prisma/prisma";
 import Link from "next/link";
 
 export default async function CategoryPage() {
-  const categories = await prisma.category.findMany();
+  const categories: Category[] = await prisma.category.findMany();
 
   return (
     <main className="min-h-screen bg-(--color-secondary) p-10">
