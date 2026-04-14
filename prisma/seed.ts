@@ -29,6 +29,32 @@ export async function main() {
   for (const u of userData) {
     await prisma.user.create({ data: u });
   }
+
+  const jewelry = await prisma.category.create({
+    data: {
+      name: "Jewelry",
+      slug: "jewelry",
+    },
+  });
+
+  await prisma.product.createMany({
+    data: [
+      {
+        name: "Silver Necklace",
+        price: 45,
+        image: "https://via.placeholder.com/300",
+        categoryId: jewelry.id,
+      },
+      {
+        name: "Gold Ring",
+        price: 120,
+        image: "https://via.placeholder.com/300",
+        categoryId: jewelry.id,
+      },
+    ],
+  });
 }
+
+
 
 main();
