@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
-export default async function CategoryItemPage() {
+export default async function CategoryPage() {
   const categories = await prisma.category.findMany();
 
   return (

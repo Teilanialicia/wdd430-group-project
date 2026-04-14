@@ -1,38 +1,52 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { authenticate } from "../actions/auth/auth";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { register } from "../actions/auth/register";
 
-export default function Login() {
+export default function Join() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [error, formAction, isPending] = useActionState(
-    authenticate,
+    register,
     undefined
-  )
+  );
+
   const router = useRouter();
   const { update } = useSession();
 
   useEffect(() => {
     if (error === "success") {
-      update();
       router.push('/');
     }
-  }, [error, router]);
+  }, [error, router, update]);
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-(--color-secondary) px-6">
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md">
 
         <h1 className="text-2xl font-bold mb-6 text-center text-(--color-primary)">
-          Login
+          Join
         </h1>
 
         <form action={formAction} className="flex flex-col gap-4">
+
+          {/* Username */}
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="border p-3 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-(--color-accent)"
+            required
+          />
 
           {/* Email */}
           <input
@@ -43,6 +57,16 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
             className="border p-3 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-(--color-accent)"
             required
+          />
+
+          {/* Phone */}
+          <input
+            name="phone"
+            type="tel"
+            placeholder="Phone number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="border p-3 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-(--color-accent)"
           />
 
           {/* Password */}
@@ -57,7 +81,7 @@ export default function Login() {
           />
 
           {/* Error */}
-          {error && (
+          {error && error !== "success" && (
             <p className="text-red-500 text-sm">{error}</p>
           )}
 
@@ -67,18 +91,18 @@ export default function Login() {
             className="bg-(--color-primary) text-white py-3 rounded-lg hover:opacity-90"
             aria-disabled={isPending}
           >
-            Login
+            Create account
           </button>
 
         </form>
 
-        {/* Optional: Navigate to signup */}
+        {/* Login link */}
         <div className="mt-6 text-center">
           <Link
-            href="/join"
+            href="/login"
             className="text-(--color-accent) underline cursor-pointer"
           >
-            Don't have an account? Sign up
+            Already have an account? Log in
           </Link>
         </div>
 

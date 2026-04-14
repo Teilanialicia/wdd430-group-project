@@ -3,7 +3,7 @@
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import bcrypt from "bcrypt"
-import prisma from '@/prisma/prisma';
+import prisma from '@/lib/prisma';
 
 export async function authenticate(prevState: string | undefined, formData: FormData) {
   try {

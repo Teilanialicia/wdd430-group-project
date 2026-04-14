@@ -10,6 +10,7 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname === '/';
       const isOnLogin = nextUrl.pathname.startsWith('/login');
+      const isOnJoin = nextUrl.pathname.startsWith('/join')
 
       // Check if the user is on the login page
       if (isOnLogin) {
@@ -19,10 +20,14 @@ export const authConfig = {
         return true;
       }
 
+      // Check if the user is on the join page
+      if (isOnJoin) {
+        return true;
+      }
+
       // Check if the user is on the dashboard page
       if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false;
+        return true;
       }
       return isLoggedIn;
     },

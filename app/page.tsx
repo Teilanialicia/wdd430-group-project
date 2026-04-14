@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "./ui/layout/button";
 
 export default function Home() {
@@ -17,9 +18,9 @@ export default function Home() {
             {/* <button onClick={navigate} className="bg-(--color-accent) text-white px-6 py-3 rounded-lg hover:opacity-90">
               Browse Products
             </button> */}
-            <Button action="navigate" navigateUrl="/login" className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-(--color-primary) cursor-pointer">
+            <Link href="/join" className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-(--color-primary) cursor-pointer">
               Become a Seller
-            </Button>
+            </Link>
           </div>
         </section>
 
@@ -30,10 +31,10 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {["Jewelry", "Home Decor", "Art", "Clothing"].map((category) => (
-              <Button action="navigate" navigateUrl={`/category/${category.replace(" ", "-").toLowerCase()}`} key={category} 
+            {["Jewelry", "Home Decor", "Art", "Clothing"].map((product) => (
+              <Button action="navigate" navigateUrl={`/products/${product.replace(" ", "-").toLowerCase()}`} key={product} 
               className="p-6 bg-white border border-(--color-secondary) rounded-xl text-center hover:shadow-lg transition cursor-pointer">
-                <p className="text-lg font-medium">{category}</p>
+                <p className="text-lg font-medium">{product}</p>
               </Button>
             ))}
           </div>

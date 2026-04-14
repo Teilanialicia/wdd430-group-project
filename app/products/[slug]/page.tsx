@@ -1,47 +1,74 @@
-import prisma from "@/prisma";
+import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 interface Props {
-  params: { id: string };
+  params: { slug: string };
 }
 
-export default async function CategoryProductsPage({ params }: Props) {
-  const categoryId = Number(params.id);
+export default async function ProductsPage({ params }: Props) {
+  const { slug } = await params;
 
-  const category = await prisma.category.findUnique({
-    where: { id: categoryId },
+  const categories = await prisma.category.findMany();
+
+  const products = await prisma.product.findMany({
+    where: {
+      category: {
+        slug,
+      },
+    },
     include: {
-      products: true,
+      category: true,
     },
   });
 
-  if (!category) {
-    return <div className="p-10">Category not found</div>;
-  }
-
   return (
     <main className="min-h-screen bg-(--color-secondary) p-10">
-      <h1 className="text-3xl font-bold text-center mb-10">
-        {category.name}
+
+      {/* Title */}
+      <h1 className="text-3xl font-bold text-center mb-6 capitalize">
+        {slug}
       </h1>
 
+      {/* Category Buttons */}
+      <div className="flex flex-wrap justify-center gap-3 mb-8">
+        {categories.map((category) => (
+          <Link
+            key={category.id}
+            href={`/products/${category.slug}`}
+            className={`
+              px-4 py-2 rounded-full border transition
+              ${
+                category.slug === slug
+                  ? "bg-(--color-primary) text-white"
+                  : "bg-white hover:shadow"
+              }
+            `}
+          >
+            {category.name}
+          </Link>
+        ))}
+      </div>
+
+      {/* Products Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-        {category.products.map((product) => (
+        {products.map((p) => (
           <div
-            key={product.id}
-            className="bg-white rounded-xl border p-4 hover:shadow-lg transition"
+            key={p.id}
+            className="bg-white p-4 rounded-xl border hover:shadow transition"
           >
             <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-40 object-cover rounded-md mb-4"
+              src={p.image}
+              className="h-40 w-full object-cover rounded-md"
             />
 
-            <h2 className="font-semibold text-lg">
-              {product.name}
-            </h2>
+            <h2 className="font-semibold mt-2">{p.name}</h2>
+
+            <p className="text-sm text-gray-500">
+              {p.category.name}
+            </p>
 
             <p className="text-(--color-accent) font-bold">
-              ${product.price.toFixed(2)}
+              ${p.price.toFixed(2)}
             </p>
           </div>
         ))}
